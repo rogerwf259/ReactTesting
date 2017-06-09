@@ -3,6 +3,9 @@
 }
 .top-bar{
   .menu-text {
-    color: $nav-text-color; 
+    color: $nav-text-color;
   }
+}
+.active {
+  font-weight: bold;
 }
