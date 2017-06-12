@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Route, Router, IndexRoute, hashHistory } from 'react-router';
 import Main from './components/Main';
 import Timer from './components/Timer';
-import Countdown from './components/Countdown';
+// import Countdown from './components/Countdown';
 
 
 import 'style-loader!css-loader!foundation-sites/dist/css/foundation.min.css'
