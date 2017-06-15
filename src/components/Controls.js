@@ -21,6 +21,22 @@ class Controls extends Component {
       );
     }
   }
+  returnTimerControls(count, countdownStatus) {
+    if (count === 0) {
+      <button
+        className="button primary"
+        onClick={this.onStatusChange('started')}
+      >
+        Start
+      </button>
+    } else if (count !== 0 && countdownStatus === 'paused') {
+      <button
+        className="button secondary" onClick={this.onStatusChange('paused')}
+      >
+        Pause
+      </button>
+    }
+  }
   onStatusChange(newStatus) {
     return  () => {
       this.props.onStatusChange(newStatus)
@@ -39,8 +55,12 @@ class Controls extends Component {
   }
 }
 
+
+
+
 Controls.propTypes = {
   countdownStatus: React.PropTypes.string.isRequired,
-  onStatusChange: React.PropTypes.func.isRequired
+  onStatusChange: React.PropTypes.func.isRequired,
+  count: React.PropTypes.number
 }
 export default Controls;
