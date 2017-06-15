@@ -8,18 +8,18 @@ class Timer extends Component {
 
     this.state = {
       count: 0,
-      timerStatus: 'stop'
+      timerStatus: 'stopped'
     }
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.state.timerStatus !== prevState.timerStatus) {
       switch(this.state.timerStatus) {
-        case 'start':
+        case 'started':
           this.startTimer();
           break;
-        case 'stop':
+        case 'stopped':
           this.setState({count: 0});
-        case 'pause':
+        case 'paused':
           clearInterval(this.timer);
           this.timer = undefined;
           break;
@@ -36,22 +36,13 @@ class Timer extends Component {
   }
   handleTimerStart() {
     this.setState({
-      timerStatus: 'start'
-
+      timerStatus: 'started'
     });
   }
   handleStatusChange(newStatus) {
-    if (newStatus === 'start' || newStatus === 'pause'){
       this.setState({
         timerStatus: newStatus
       });
-    } else if (newStatus === 'stop') {
-      this.setState({
-        timerStatus: newStatus,
-        count: 0
-      });
-    }
-
   }
   componentWillUnmount() {
     clearInterval(this.timer);
@@ -65,7 +56,6 @@ class Timer extends Component {
         <Clock totalSeconds={count} />
         <Controls
           countdownStatus={timerStatus} onStatusChange={this.handleStatusChange.bind(this)}
-          count={count}
         />
       </div>
     );
