@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 
 class Controls extends Component {
+  constructor(props) {
+    super(props);
+
+    this.timerOrCountdown = this.timerOrCountdown.bind(this);
+  }
   returnStartStopButton(countdownStatus) {
     if (countdownStatus === 'started'){
       return (
@@ -22,19 +27,23 @@ class Controls extends Component {
     }
   }
   returnTimerControls(count, countdownStatus) {
-    if (count === 0) {
-      <button
-        className="button primary"
-        onClick={this.onStatusChange('started')}
-      >
-        Start
-      </button>
-    } else if (count !== 0 && countdownStatus === 'paused') {
-      <button
-        className="button secondary" onClick={this.onStatusChange('paused')}
-      >
-        Pause
-      </button>
+    if (count === 0 || countdownStatus === 'pause') {
+      return (
+        <button
+          className="button primary"
+          onClick={this.onStatusChange('start')}
+        >
+          Start
+        </button>
+      );
+    } else if (count !== 0 || countdownStatus === 'start') {
+        return (
+          <button
+            className="button secondary" onClick={this.onStatusChange('pause')}
+          >
+            Pause
+          </button>
+        );
     }
   }
   onStatusChange(newStatus) {
@@ -42,20 +51,37 @@ class Controls extends Component {
       this.props.onStatusChange(newStatus)
     }
   }
+  timerOrCountdown(count, countdownStatus, self) {
+    if (countdownStatus === 'stop' || countdownStatus === 'start' || countdownStatus === 'pause') {
+      return (
+        <div>
+          {self.returnTimerControls(count, countdownStatus)}
+          <button
+            className="button alert hollow" onClick={this.onStatusChange('stop')}
+          >Clear</button>
+        </div>
+      );
+    } else if (countdownStatus === 'stopped' || countdownStatus === 'started' || countdownStatus === 'paused'){
+      return (
+        <div>
+        {self.returnStartStopButton(countdownStatus)}
+          <button
+            className="button alert hollow" onClick={this.onStatusChange('stopped')}
+          >Clear</button>
+        </div>
+      );
+    }
+  }
   render() {
-    var { countdownStatus } = this.props;
+    var { countdownStatus, count } = this.props;
+    var self = this;
     return (
       <div className="controls">
-        {this.returnStartStopButton(countdownStatus)}
-        <button
-          className="button alert hollow" onClick={this.onStatusChange('stopped')}
-        >Clear</button>
+        {this.timerOrCountdown(count, countdownStatus, self)}
       </div>
     );
   }
 }
-
-
 
 
 Controls.propTypes = {
